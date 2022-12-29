@@ -33,6 +33,7 @@ function App() {
         <Route path="/login" element={<Auth/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/new/invoice" element={<CreateInvoice/>}/>
+        <Route path="/edit/invoice/:id" element={<CreateInvoice/>}/>
         <Route path="/view/invoice/:id" element={<ViewInvoice/>}/>
         <Route path="/profile" element={<SetupProfile/>}/>
         <Route path="*" element={<PageNotFound/>}/>

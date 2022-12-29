@@ -2,7 +2,8 @@ import React from 'react';
 
 const CreateInvoiceTable = ({ itemList }) => {
   return (
-    <table>
+    <div className="w-full overflow-auto">
+      <table>
       <thead>
         <th>Name</th>
         <th>Cost</th>
@@ -25,6 +26,7 @@ const CreateInvoiceTable = ({ itemList }) => {
         ))}
       </tbody>
     </table>
+    </div>
   );
 };
 

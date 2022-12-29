@@ -4,14 +4,7 @@ const Footer = () => {
   return (
     <footer className="min-h-[10vh] w-full p-8 flex items-center justify-center">
       <p className="text-sm">
-        Made with 💖 from{' '}
-        <a
-          href="https://twitter.com/Arshadayvid"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          David Asaolu
-        </a>
+        Made with 💖 from Akshay Ijari
       </p>
     </footer>
   );
