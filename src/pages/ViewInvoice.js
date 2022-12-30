@@ -12,6 +12,27 @@ import HomeIcon from '@mui/icons-material/Home';
 import { findGrandTotal, convertTimestamp } from '../utils/functions';
 import Loading from '../components/Loading';
 
+export const InlineValue = ({name,value}) => {
+  return(
+    <div className='flex'>
+      <p className="text-sm mb-1">{name} : {value}</p>
+    </div>
+  )
+}
+export const TableRow = ({name,value, classname}) => {
+  return(
+    <tr>
+      <td colSpan="6" className="text-right font-bold text-xs">
+        {name}
+      </td>
+      <td className={`font-bold uppercase text-xs ${classname}`}>
+        {value}
+      </td>
+    </tr>
+  )
+}
+
+
 export const ComponentToPrint = React.forwardRef((props, ref) => {
   let params = useParams();
   const [invoiceDetails, setInvoiceDetails] = useState(null);
@@ -41,6 +62,7 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
         setLoading(false);
         return () => unsub();
       }
+    
     } catch (error) {
       console.error(error);
     }
@@ -52,59 +74,16 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
         <Loading />
       ) : (
         <div
-          className="w-full md:w-2/3 shadow-xl mx-auto mt-8 rounded"
+          className="w-full w-5/7 mx-auto m-4"
           ref={ref}
         >
-          <div className="w-full bg-black flex items-center">
-            <div className="w-1/2 h-[100%]  p-8 ">
-              <img
-                src={businessDetails ? businessDetails[0].data.logo : ''}
-                alt="Logo"
-                className="w-[150px]"
-              />
-            </div>
-            <div className="w-1/2  px-6 py-4">
-              <h3 className="text-gray-50 text-2xl mb-8">Invoice</h3>
-              <p className="text-gray-50 text-sm mb-1">Invoice ID:</p>
-
-              {invoiceDetails && (
-                <p className="text-gray-300 mb-5 text-sm">
-                  {invoiceDetails.id.slice(0, 5)}
-                </p>
-              )}
-
-              <p className="text-gray-50 text-sm mb-1">Date:</p>
-
-              {invoiceDetails && (
-                <p className="text-gray-300 text-sm">
-                  {convertTimestamp(invoiceDetails.data.timestamp)}
-                </p>
-              )}
-            </div>
+          <div className="w-full flex justify-center items-center pt-8">
+            <h3 className="text-2xl ">Tax Invoice</h3>
           </div>
           <div className="w-full flex items-center">
-            {invoiceDetails && (
-              <div className="w-1/2 p-8">
-                <h3 className="font-medium mb-2">Bill To:</h3>
-                <p className="text-sm mb-1">
-                  {invoiceDetails.data.customerName}
-                </p>
-                <p className="text-sm mb-1">
-                  {invoiceDetails.data.customerAddress}
-                </p>
-                <p className="text-sm mb-1">
-                  {invoiceDetails.data.customerCity}
-                </p>
-                <p className="text-sm mb-1">
-                  {invoiceDetails.data.customerEmail}
-                </p>
-              </div>
-            )}
-
             {businessDetails && (
-              <div className="w-1/2  p-8">
-                <h3 className="font-medium mb-2">Bill From:</h3>
-                <p className="text-sm mb-1">
+              <div className="w-1/2  px-8 py-4">
+                <p className="font-bold text-sm mb-1">
                   {businessDetails[0].data.businessName}
                 </p>
                 <p className="text-sm mb-1">
@@ -113,28 +92,90 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
                 <p className="text-sm mb-1">
                   {businessDetails[0].data.businessCity}
                 </p>
+                <p className="text-sm mb-1">
+                  {businessDetails[0].data.businessState}-{businessDetails[0].data.businessPincode}
+                </p>
+                <p className="text-sm mb-1">
+                  GSTN : {businessDetails[0].data.businessGSTN}
+                </p>
               </div>
             )}
+            {invoiceDetails && <div className="w-1/2  px-8 py-4">
+              <InlineValue name="Invoice ID" value={invoiceDetails.id.slice(0, 5)} />
+              <InlineValue name="Bill Date" value={invoiceDetails.data.customerBillDate} />
+              <InlineValue name="E Way Number" value={invoiceDetails.data.customerEway} />
+              <InlineValue name="E way Date" value={invoiceDetails.data.customerBillDate} />
+              <InlineValue name="Delivery Note" value='' />
+              <InlineValue name="Buyer's Order No" value='' />
+            </div>}
+          </div>
+          <div className="w-full flex">
+          {invoiceDetails && (
+              <div className="w-1/2  px-8 ">
+                <h3 className="font-medium mb-2">Billing Address :</h3>
+                <p className="text-sm mb-1">
+                  {invoiceDetails.data.customerName}
+                </p>
+                <p className="text-sm mb-1">
+                  {invoiceDetails.data.customerAddress},
+                </p>
+                <p className="text-sm mb-1">
+                  {invoiceDetails.data.customerCity}, {invoiceDetails.data.customerDist}
+                </p>
+                <p className="text-sm mb-1">
+                  {invoiceDetails.data.customerState}, {invoiceDetails.data.customerPincode}
+                </p>
+                <p className="text-sm mb-1">
+                  GSTN : {invoiceDetails.data.customerGSTN}
+                </p>
+                <p className="text-sm mb-1">
+                  {invoiceDetails.data.customerPhone}, {invoiceDetails.data.customerEmail}
+                </p>
+              </div>
+            )}
+            {invoiceDetails && (
+              <div className="w-1/2 px-8">
+                <p className="text-sm mb-1">
+                  Destination : {invoiceDetails.data.customerDestination}
+                </p>
+                <p className="text-sm mb-1">
+                  Dispatched Through : {invoiceDetails.data.customerDispatchedThrough}
+                </p>
+                <p className="text-sm mb-1">
+                  Terms of Delivery : {invoiceDetails.data.customerDeliveryTerms}
+                </p>
+                <p className="text-sm mb-1">
+                  Motor Vehicle No : {invoiceDetails.data.customerVehicleNo}
+                </p>
+              </div>
+            )}
+
           </div>
 
-          <div className=" p-8">
+          <div className=" px-8">
             <table>
               <thead>
-                <th>Item</th>
-                <th className="text-right text-sm">Cost</th>
+                <th>SL. No.</th>
+                <th className="text-right text-sm">Description of Goods</th>
+                <th className="text-right text-sm">HSN/SAC Code</th>
                 <th className="text-right text-sm">Qty</th>
-                <th className="text-right text-sm">Price</th>
+                <th className="text-right text-sm">Unit</th>
+                <th className="text-right text-sm">Rate</th>
+                <th className="text-right text-sm">Amount</th>
               </thead>
               <tbody>
                 {invoiceDetails &&
-                  invoiceDetails.data.itemList.map((item) => (
+                  invoiceDetails.data.itemList.map((item, idx) => (
                     <tr key={item.itemName}>
+                      <td className="text-xs capitalize">{idx+1}</td>
                       <td className="text-xs capitalize">{item.itemName}</td>
-                      <td className="text-xs text-right">
-                        {Number(item.itemCost).toLocaleString('en-US')}
-                      </td>
+                      <td className="text-xs capitalize text-center">{item.itemCode}</td>
                       <td className="text-xs text-right">
                         {Number(item.itemQuantity).toLocaleString('en-US')}
+                      </td>
+                      <td className="text-xs capitalize">{item.itemUnit}</td>
+                      <td className="text-xs text-right">
+                        {Number(item.itemRatewithoutGST).toLocaleString('en-US')}
                       </td>
                       <td className="text-xs text-right">
                         {(
@@ -145,42 +186,63 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
                   ))}
 
                 {invoiceDetails && (
-                  <tr>
-                    <td colSpan="3" className="text-right font-bold text-sm">
-                      TOTAL AMOUNT
-                    </td>
-                    <td className="font-bold text-right uppercase text-sm">
-                      {findGrandTotal(
-                        invoiceDetails.data,
-                        invoiceDetails.data.currency
-                      )}
-                    </td>
-                  </tr>
+                  <>
+                  <TableRow name="Total Amount" value={invoiceDetails.data.totalAmount} classname='text-right' />
+                  <TableRow name={`CGST (${invoiceDetails.data.itemList[0].itemCGST})%`} value={invoiceDetails.data.cgstAmount} classname='text-right' />
+                  <TableRow name={`SGST (${invoiceDetails.data.itemList[0].itemSGST})%`} value={invoiceDetails.data.sgstAmount} classname='text-right' />
+                  <TableRow name="Round off" value={invoiceDetails.data.priceRoundoff} classname='text-right' />
+                  <TableRow name="Grand Total" value={`${invoiceDetails.data.currency} ${invoiceDetails.data.grandTotal}`} classname='text-right' />
+                  </>
                 )}
               </tbody>
             </table>
           </div>
 
-          {businessDetails && (
-            <div className="w-full p-8">
-              <h3 className="font-semibold mb-2">Payment Details</h3>
-              <p className="text-sm mb-1 capitalize">
-                <span className="font-semibold">Account Name: </span>
-                {businessDetails[0].data.accountName}
-              </p>
-              <p className="text-sm mb-1">
-                <span className="font-semibold">Account Number: </span>
-                {businessDetails[0].data.accountNumber}
-              </p>
-              <p className="text-sm mb-1 capitalize">
-                <span className="font-semibold">Bank Name: </span>{' '}
-                {businessDetails[0].data.bankName}
-              </p>
+          <div className="w-full flex">
+          {businessDetails && businessDetails[0].data.declarations !='' && (
+              <div className="w-1/2  px-8 py-4">
+                <h3 className="font-medium mb-2">Declarations:</h3>
+                <p className="text-sm mb-1">
+                  {businessDetails[0].data.declarations}
+                </p>
+              </div>
+            )}
+            {businessDetails && (
+              <div className="w-1/2  px-8 py-4">
+                <h3 className="font-medium mb-2">Our Bank Details:</h3>
+                <p className="text-sm mb-1">
+                  Account Holder Name : {businessDetails[0].data.accountName}
+                </p>
+                <p className="text-sm mb-1">
+                  Account Number : {businessDetails[0].data.accountNumber},
+                </p>
+                <p className="text-sm mb-1">
+                  IFSC Code : {businessDetails[0].data.ifscCode}
+                </p>
+                <p className="text-sm mb-1">
+                  Bank Name : {businessDetails[0].data.bankName}
+                </p>
+                <p className="text-sm mb-1">
+                  Bank Branch : {businessDetails[0].data.bankBranch}
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div className="w-full flex">
+            <div className="w-1/2  px-8 flex flex-col items-center">
+              <h3 className="font-medium mb-2">Customer Seal and Signature</h3>
             </div>
-          )}
+            <div className="w-1/2  px-8 h-28 flex flex-col justify-between items-center">
+              {businessDetails &&<p className="text-sm mb-1">
+                For {businessDetails[0].data.businessName}
+              </p>}
+              <h3 className="font-medium mb-2">(Authorised Signature)</h3>
+            </div>
+          </div>
 
           <footer className="px-8 py-4 bg-gray-200 w-full">
-            <p className="text-sm text-center">Thanks for the patronage!</p>
+            <p className="text-sm text-center">Thankyou for trading with us.</p>
           </footer>
         </div>
       )}

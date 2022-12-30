@@ -48,3 +48,37 @@ export const convertTimestamp = (timestamp) => {
 
     return `${day}-${month}-${year}`;
   }
+
+export const createInvoiceID = (timestamp) => {
+  console.log(timestamp);
+  const fireBaseTime = new Date(
+    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+  );
+  const day =
+    fireBaseTime.getDate() < 10
+      ? `0${fireBaseTime.getDate()}`
+      : fireBaseTime.getDate();
+  const month =
+    fireBaseTime.getMonth() < 10
+      ? `0${fireBaseTime.getMonth()}`
+      : fireBaseTime.getMonth();
+  const year = fireBaseTime.getFullYear();
+  const hour =
+  fireBaseTime.getHours() < 10
+    ? `0${fireBaseTime.getHours()}`
+    : fireBaseTime.getHours();
+  const minute =
+  fireBaseTime.getMinutes() < 10
+    ? `0${fireBaseTime.getMinutes()}`
+    : fireBaseTime.getMinutes();
+  const second =
+    fireBaseTime.getSeconds() < 10
+    ? `0${fireBaseTime.getSeconds()}`
+    : fireBaseTime.getSeconds();
+
+  return `${second}${minute}${hour}${day}${month}/${year}`;
+}
+
+export const getRoundValue = (num) => {
+  return parseFloat((Math.round(num * 100) / 100).toFixed(2))
+}
