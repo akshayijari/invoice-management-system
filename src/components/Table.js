@@ -11,7 +11,7 @@ const Table = ({ invoices }) => {
         <thead>
           <tr>
             <th  className="text-blue-600">Customer</th>
-            <th  className="text-blue-600">Date</th>
+            <th  className="text-blue-600">Invoice No.</th>
             <th  className="text-blue-600">City</th>
             <th  className="text-blue-600">GSTN</th>
             <th  className="text-blue-600">Actions</th>
@@ -21,7 +21,8 @@ const Table = ({ invoices }) => {
           {invoices.map((invoice) => (
             <tr key={invoice.id}>
               <td  className='text-sm'>{invoice.data.customerName}</td>
-              <td className='text-sm'>{convertTimestamp(invoice.data.timestamp)}</td>
+              <td className='text-sm'>{invoice.data.invoiceNo}</td>
+              {/* <td className='text-sm'>{convertTimestamp(invoice.data.timestamp)}</td> */}
               <td  className='text-sm'>{invoice.data.customerCity}</td>
               <td  className='text-sm'>{invoice.data.customerGSTN
           }</td>

@@ -7,7 +7,7 @@ import { setInvoice } from '../redux/invoice';
 import { addDoc, collection, serverTimestamp, updateDoc, doc, onSnapshot } from '@firebase/firestore';
 import db from '../firebase';
 import Nav from '../components/Nav';
-import { showToast } from '../utils/functions';
+import { showToast, getRoundValue, createInvoiceID } from '../utils/functions';
 import Loading from '../components/Loading';
 
 const CreateInvoice = () => {
@@ -31,6 +31,14 @@ const CreateInvoice = () => {
   const [customerDispatchedThrough, setCustomerDispatchedThrough] = useState('');
   const [customerDeliveryTerms, setCustomerDeliveryTerms] = useState('');
   
+  const [CGST, setCGST] = useState(2.5);
+  const [SGST, setSGST] = useState(2.5);
+  const [cgstAmount, setCgstAmount] = useState(0);
+  const [sgstAmount, setSgstAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
+  const [priceRoundoff, setpriceRoundoff] = useState(0.0);
+  
   const [itemName, setItemName] = useState('');
   const [itemQuantity, setItemQuantity] = useState(1);
   const [itemCode, setItemCode] = useState('');
@@ -38,9 +46,6 @@ const CreateInvoice = () => {
   const [itemCost, setItemCost] = useState(0);
   const [itemRate, setItemRate] = useState(0);
   const [itemRatewithoutGST, setItemRatewithoutGST] = useState(0);
-  const [itemCGST, setItemCGST] = useState(2.5);
-  const [itemSGST, setItemSGST] = useState(2.5);
-  const [priceRoundoff, setpriceRoundoff] = useState(0.0);
   const [itemList, setItemList] = useState([]);
 
   const navigate = useNavigate();
@@ -54,21 +59,17 @@ const CreateInvoice = () => {
   useEffect(() => {
     if (!user.id) return navigate('/login');
     setLoading(false);
-    console.log('params', params);
   }, [navigate, user.id]);
 
   useEffect(() => {
-    console.log('inside 11 =====');
     if (!user.id) return navigate('/login');
     try {
-      console.log('inside 22 =====');
       if (params.id) {
-        console.log('inside 33 =====');
         const unsub = onSnapshot(doc(db, 'invoices', params.id), (doc) => {
-          console.log('inside 44 =====', doc.data());
           setInvoiceDetails({ data: doc.data(), id: doc.id });
           setIsEdit(true)
           setItemList(doc.data().itemList)
+          setInvoiceNo(doc.data().invoiceNo)
           setCustomerName(doc.data().customerName)
           setCustomerAddress(doc.data().customerAddress)
           setCustomerCity(doc.data().customerCity)
@@ -95,8 +96,35 @@ const CreateInvoice = () => {
   },[]);
 
   useEffect(() => {
-    setItemCost(itemQuantity*itemRatewithoutGST)
+    setItemCost(getRoundValue(itemQuantity*itemRatewithoutGST))
   }, [itemRatewithoutGST, itemQuantity]);
+
+  useEffect(() => {
+    let total_amount=0;
+    itemList.forEach(x => {
+      total_amount = total_amount + x.itemCost;
+    });
+
+    console.log(total_amount, getRoundValue(4));
+    setTotalAmount(getRoundValue(total_amount))
+    setCgstAmount(getRoundValue(total_amount*CGST/100))
+    setSgstAmount(getRoundValue(total_amount*SGST/100))
+    let grandtotal = total_amount+getRoundValue(total_amount*CGST/100)+getRoundValue(total_amount*SGST/100);
+    setpriceRoundoff((grandtotal-Math.floor(grandtotal)).toFixed(2))
+    setGrandTotal((Math.floor(grandtotal)).toFixed(2))
+  }, [itemList]);
+
+  const deleteItem = (name) => {
+    try{
+      if(itemList.length > 0){
+        const filteredList = itemList.filter((item) => item.itemName !== name);
+        setItemList(filteredList)
+      }
+    }
+    catch(e){
+      console.log('error while deleting item', e);
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -110,13 +138,11 @@ const CreateInvoice = () => {
           itemCode,
           itemUnit,
           itemRatewithoutGST,
-          itemCGST,
-          itemSGST,
-          priceRoundoff,
-          itemList,
+          itemRate,
         },
       ]);
     }
+
     setItemName('');
     setItemCode('')
     setItemCost(0);
@@ -141,9 +167,12 @@ const CreateInvoice = () => {
 
     await addDoc(collection(db, 'invoices'), {
       user_id: user.id,
-      timestamp: serverTimestamp(),
+      created_timestamp: serverTimestamp(),
+      updated_timestamp: serverTimestamp(),
+      invoiceNo,
       customerName,customerAddress,customerCity,customerDist,customerState,customerPincode,customerGSTN,customerEmail,customerPhone,currency,
       customerEway,customerBillDate,customerDestination,customerVehicleNo,customerDispatchedThrough,customerDeliveryTerms,itemList,
+      CGST,SGST,cgstAmount,sgstAmount,totalAmount,grandTotal,priceRoundoff,
     })
       .then(() => {
         showToast('success', 'Invoice created!📜');
@@ -168,9 +197,11 @@ const CreateInvoice = () => {
     );
     await updateDoc(doc(db, 'invoices', params.id), {
       user_id: user.id,
-      timestamp: serverTimestamp(),
+      updated_timestamp: serverTimestamp(),
+      invoiceNo,
       customerName,customerAddress,customerCity,customerDist,customerState,customerPincode,customerGSTN,customerEmail,customerPhone,currency,
       customerEway,customerBillDate,customerDestination,customerVehicleNo,customerDispatchedThrough,customerDeliveryTerms,itemList,
+      CGST,SGST,cgstAmount,sgstAmount,totalAmount,grandTotal,priceRoundoff,
     }).then(() => {
       showToast('success', 'Invoice updated!📜');
     })
@@ -194,6 +225,17 @@ const CreateInvoice = () => {
               className="w-full mx-auto flex flex-col"
               onSubmit={isEdit?updateInvoice: saveInvoice}
             >
+              <label htmlFor="invoiceNo" className="text-sm">
+                Invoice Number
+              </label>
+              <input
+                type="text"
+                required
+                name="invoiceNo"
+                className="py-2 px-4 bg-gray-100 w-full mb-6"
+                value={invoiceNo}
+                onChange={(e) => setInvoiceNo(e.target.value)}
+              />
               <label htmlFor="customerName" className="text-sm">
                 Customer's Name
               </label>
@@ -494,36 +536,36 @@ const CreateInvoice = () => {
                       name="itemRate"
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemRate}
-                      onChange={(e) => {setItemRate(e.target.value); setItemRatewithoutGST((e.target.value*100/(itemCGST+itemSGST+100)))}}
+                      onChange={(e) => {setItemRate(e.target.value); setItemRatewithoutGST((e.target.value*100/(CGST+SGST+100)))}}
                     />
                   </div>
                 </div>
 
                 <div className="flex space-x-3">
                   <div className="flex flex-col justify-center w-1/3">
-                    <label htmlFor="itemSGST" className="text-sm">
+                    <label htmlFor="SGST" className="text-sm">
                       SGST (%)
                     </label>
                     <input
                       type="number"
-                      name="itemSGST"
+                      name="SGST"
                       disabled
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
-                      value={itemSGST}
-                      onChange={(e) => setItemSGST(e.target.value)}
+                      value={SGST}
+                      onChange={(e) => setSGST(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-1/3">
-                    <label htmlFor="itemCGST" className="text-sm">
+                    <label htmlFor="CGST" className="text-sm">
                       CGST (%)
                     </label>
                     <input
                       type="number"
-                      name="itemCGST"
+                      name="CGST"
                       disabled
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
-                      value={itemCGST}
-                      onChange={(e) => setItemCGST(e.target.value)}
+                      value={CGST}
+                      onChange={(e) => setCGST(e.target.value)}
                       
                     />
                   </div>
@@ -537,7 +579,7 @@ const CreateInvoice = () => {
                       name="itemRatewithoutGST"
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemRatewithoutGST}
-                      onChange={(e) => {setItemRatewithoutGST(e.target.value); setItemRate((e.target.value*(itemCGST+itemSGST+100)/100))}}
+                      onChange={(e) => {setItemRatewithoutGST(e.target.value); setItemRate((e.target.value*(CGST+SGST+100)/100))}}
                     />
                   </div>
 
@@ -557,7 +599,17 @@ const CreateInvoice = () => {
                 </button>
               </div>
 
-              {itemList[0] && <CreateInvoiceTable itemList={itemList} />}
+              {itemList[0] && 
+                <CreateInvoiceTable 
+                  itemList={itemList} 
+                  cgstAmount={cgstAmount} 
+                  sgstAmount={sgstAmount}
+                  totalAmount={totalAmount}
+                  grandTotal={grandTotal}
+                  priceRoundoff={priceRoundoff} 
+                  deleteItem={deleteItem}
+                />
+              }
 
               <button
                 className="bg-blue-800 text-gray-100 w-full p-5 rounded my-6"
