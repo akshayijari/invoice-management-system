@@ -64,6 +64,7 @@ const CreateInvoice = () => {
   useEffect(() => {
     if (!user.id) return navigate('/login');
     try {
+      
       if (params.id) {
         const unsub = onSnapshot(doc(db, 'invoices', params.id), (doc) => {
           setInvoiceDetails({ data: doc.data(), id: doc.id });
