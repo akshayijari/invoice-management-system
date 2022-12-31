@@ -16,8 +16,8 @@ const CreateInvoiceTable = ({ itemList, deleteItem, cgstAmount,sgstAmount,totalA
         {itemList.map((item) => (
           <tr key={item.itemName}>
             <td className="text-sm">{item.itemName}</td>
-            <td className="text-sm">{item.itemRate}</td>
             <td className="text-sm">{item.itemQuantity}</td>
+            <td className="text-sm">{item.itemRate}</td>
             <td className="text-sm text-right">{item.itemCost}</td>
             <td> 
               <DeleteIcon color="error" onClick={()=>deleteItem(item.itemName)} />

@@ -480,7 +480,6 @@ const CreateInvoice = () => {
                     <input
                       type="text"
                       name="itemName"
-                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemName}
                       onChange={(e) => setItemName(e.target.value)}
@@ -508,7 +507,6 @@ const CreateInvoice = () => {
                     <input
                       type="number"
                       name="itemQuantity"
-                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemQuantity}
                       onChange={(e) => setItemQuantity(e.target.value)}
@@ -521,7 +519,6 @@ const CreateInvoice = () => {
                     <input
                       type="text"
                       name="itemUnit"
-                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemUnit}
                       onChange={(e) => setItemUnit(e.target.value)}
@@ -535,7 +532,6 @@ const CreateInvoice = () => {
                     <input
                       type="number"
                       name="itemRate"
-                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemRate}
                       onChange={(e) => {setItemRate(e.target.value); setItemRatewithoutGST((e.target.value*100/(CGST+SGST+100)))}}
@@ -579,7 +575,6 @@ const CreateInvoice = () => {
                     <input
                       type="number"
                       name="itemRatewithoutGST"
-                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemRatewithoutGST}
                       onChange={(e) => {setItemRatewithoutGST(e.target.value); setItemRate((e.target.value*(CGST+SGST+100)/100))}}

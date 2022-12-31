@@ -252,7 +252,7 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
 export const ViewInvoice = () => {
   const ComponentRef = useRef();
   const handlePrint = useReactToPrint({
-    content: () => ComponentRef.current,
+    content: () => ComponentRef.current
   });
   const navigate = useNavigate();
   return (
@@ -283,7 +283,6 @@ export const ViewInvoice = () => {
             }}
           >
             <HomeIcon color="primary" style={{ fontSize: '50px' }} />
-            {/* <AddCircleIcon color="primary" sx={{ fontSize: 60 }} /> */}
           </IconButton>
         </Tooltip>
 
