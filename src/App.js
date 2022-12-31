@@ -30,6 +30,7 @@ function App() {
       <Suspense fallback={<Loading/>}>
       <Routes>
         <Route exact path="/" element={<Home/>}/>
+        <Route exact path="/invoice-management-system" element={<Home/>}/>
         <Route path="/login" element={<Auth/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/new/invoice" element={<CreateInvoice/>}/>

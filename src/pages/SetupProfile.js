@@ -61,7 +61,7 @@ const SetupProfile = (aa) => {
         setLoading(false);
         console.log('business.length ', business.length)
         if(business.length > 0 ){setIsFirst(false)}
-        if( state.source == 'from_login' && business.length > 0 ){
+        if( state.source === 'from_login' && business.length > 0 ){
           navigate('/dashboard');
         }
         const q = query(collection(db, "businesses"), where('user_id', '==', user.id));

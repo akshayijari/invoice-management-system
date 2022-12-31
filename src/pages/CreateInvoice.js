@@ -7,7 +7,7 @@ import { setInvoice } from '../redux/invoice';
 import { addDoc, collection, serverTimestamp, updateDoc, doc, onSnapshot } from '@firebase/firestore';
 import db from '../firebase';
 import Nav from '../components/Nav';
-import { showToast, getRoundValue, createInvoiceID } from '../utils/functions';
+import { showToast, getRoundValue } from '../utils/functions';
 import Loading from '../components/Loading';
 
 const CreateInvoice = () => {
@@ -53,7 +53,6 @@ const CreateInvoice = () => {
   const user = useSelector((state) => state.user.user);
   const [loading, setLoading] = useState(true);
 
-  const [invoiceDetails, setInvoiceDetails] = useState(null);
 
   let params = useParams();
   useEffect(() => {
@@ -64,9 +63,9 @@ const CreateInvoice = () => {
   useEffect(() => {
     if (!user.id) return navigate('/login');
     try {
+      
       if (params.id) {
         const unsub = onSnapshot(doc(db, 'invoices', params.id), (doc) => {
-          setInvoiceDetails({ data: doc.data(), id: doc.id });
           setIsEdit(true)
           setItemList(doc.data().itemList)
           setInvoiceNo(doc.data().invoiceNo)
@@ -185,6 +184,7 @@ const CreateInvoice = () => {
 
   const updateInvoice = async (e) => {
     e.preventDefault();
+    setItemList([...itemList])
     dispatch(
       setInvoice({
         customerName,
@@ -327,7 +327,6 @@ const CreateInvoice = () => {
                   </label>
                   <input
                     type="text"
-                    required
                     name="customerPhone"
                     className="py-2 px-4 bg-gray-100 w-full mb-6"
                     value={customerPhone}
@@ -355,7 +354,6 @@ const CreateInvoice = () => {
                   </label>
                   <input
                     type="email"
-                    required
                     name="customerEmail"
                     className="py-2 px-4 bg-gray-100 w-full mb-6"
                     value={customerEmail}
@@ -489,7 +487,7 @@ const CreateInvoice = () => {
                   </div>
                   <div className="flex flex-col w-1/2">
                     <label htmlFor="itemCode" className="text-sm">
-                      Item Code
+                      Item/HSN Code
                     </label>
                     <input
                       type="text"

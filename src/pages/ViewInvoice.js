@@ -9,7 +9,6 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import HomeIcon from '@mui/icons-material/Home';
-import { findGrandTotal, convertTimestamp } from '../utils/functions';
 import Loading from '../components/Loading';
 
 export const InlineValue = ({name,value}) => {
@@ -199,7 +198,7 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
           </div>
 
           <div className="w-full flex">
-          {businessDetails && businessDetails[0].data.declarations !='' && (
+          {businessDetails && businessDetails[0].data.declarations !=='' && (
               <div className="w-1/2  px-8 py-4">
                 <h3 className="font-medium mb-2">Declarations:</h3>
                 <p className="text-sm mb-1">
@@ -253,7 +252,7 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
 export const ViewInvoice = () => {
   const ComponentRef = useRef();
   const handlePrint = useReactToPrint({
-    content: () => ComponentRef.current,
+    content: () => ComponentRef.current
   });
   const navigate = useNavigate();
   return (
@@ -265,12 +264,11 @@ export const ViewInvoice = () => {
             style={{
               position: 'fixed',
               top: '10px',
-              right: '30px',
+              right: '100px',
               zIndex: '1000px',
-              color: '#F7CCAC',
             }}
           >
-            <LocalPrintshopIcon style={{ fontSize: '50px' }} />
+            <LocalPrintshopIcon color="primary" style={{ fontSize: '50px' }} />
           </IconButton>
         </Tooltip>
 
@@ -279,12 +277,12 @@ export const ViewInvoice = () => {
             onClick={() => navigate('/dashboard')}
             style={{
               position: 'fixed',
-              bottom: '50px',
+              top: '10px',
               right: '30px',
               zIndex: '1000px',
             }}
           >
-            <HomeIcon style={{ fontSize: '30px' }} />
+            <HomeIcon color="primary" style={{ fontSize: '50px' }} />
           </IconButton>
         </Tooltip>
 
