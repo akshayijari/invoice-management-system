@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/invoice-management-system/static/css/main.81a370c8.css",
-    "main.js": "/invoice-management-system/static/js/main.d75494ea.js",
-    "static/js/327.5392c9a6.chunk.js": "/invoice-management-system/static/js/327.5392c9a6.chunk.js",
-    "static/js/489.c68e4e09.chunk.js": "/invoice-management-system/static/js/489.c68e4e09.chunk.js",
-    "static/js/156.4583c5bf.chunk.js": "/invoice-management-system/static/js/156.4583c5bf.chunk.js",
-    "static/js/908.0b015c55.chunk.js": "/invoice-management-system/static/js/908.0b015c55.chunk.js",
-    "static/js/860.e1f0fc47.chunk.js": "/invoice-management-system/static/js/860.e1f0fc47.chunk.js",
+    "main.css": "/invoice-management-system/static/css/main.a6b5d590.css",
+    "main.js": "/invoice-management-system/static/js/main.6b63201f.js",
+    "static/js/327.14261788.chunk.js": "/invoice-management-system/static/js/327.14261788.chunk.js",
+    "static/js/489.20150dac.chunk.js": "/invoice-management-system/static/js/489.20150dac.chunk.js",
+    "static/js/156.485506a5.chunk.js": "/invoice-management-system/static/js/156.485506a5.chunk.js",
+    "static/js/908.659368d8.chunk.js": "/invoice-management-system/static/js/908.659368d8.chunk.js",
+    "static/js/860.63ecc380.chunk.js": "/invoice-management-system/static/js/860.63ecc380.chunk.js",
     "static/js/787.8af56ae3.chunk.js": "/invoice-management-system/static/js/787.8af56ae3.chunk.js",
     "static/js/649.9bfd8e17.chunk.js": "/invoice-management-system/static/js/649.9bfd8e17.chunk.js",
     "static/js/522.ee6b490f.chunk.js": "/invoice-management-system/static/js/522.ee6b490f.chunk.js",
@@ -16,20 +16,20 @@
     "static/media/login.svg": "/invoice-management-system/static/media/login.c6defa285a23333ab02d2139245b46eb.svg",
     "static/media/scale.svg": "/invoice-management-system/static/media/scale.c792a58c4da10df7ce3570914f89e410.svg",
     "index.html": "/invoice-management-system/index.html",
-    "main.81a370c8.css.map": "/invoice-management-system/static/css/main.81a370c8.css.map",
-    "main.d75494ea.js.map": "/invoice-management-system/static/js/main.d75494ea.js.map",
-    "327.5392c9a6.chunk.js.map": "/invoice-management-system/static/js/327.5392c9a6.chunk.js.map",
-    "489.c68e4e09.chunk.js.map": "/invoice-management-system/static/js/489.c68e4e09.chunk.js.map",
-    "156.4583c5bf.chunk.js.map": "/invoice-management-system/static/js/156.4583c5bf.chunk.js.map",
-    "908.0b015c55.chunk.js.map": "/invoice-management-system/static/js/908.0b015c55.chunk.js.map",
-    "860.e1f0fc47.chunk.js.map": "/invoice-management-system/static/js/860.e1f0fc47.chunk.js.map",
+    "main.a6b5d590.css.map": "/invoice-management-system/static/css/main.a6b5d590.css.map",
+    "main.6b63201f.js.map": "/invoice-management-system/static/js/main.6b63201f.js.map",
+    "327.14261788.chunk.js.map": "/invoice-management-system/static/js/327.14261788.chunk.js.map",
+    "489.20150dac.chunk.js.map": "/invoice-management-system/static/js/489.20150dac.chunk.js.map",
+    "156.485506a5.chunk.js.map": "/invoice-management-system/static/js/156.485506a5.chunk.js.map",
+    "908.659368d8.chunk.js.map": "/invoice-management-system/static/js/908.659368d8.chunk.js.map",
+    "860.63ecc380.chunk.js.map": "/invoice-management-system/static/js/860.63ecc380.chunk.js.map",
     "787.8af56ae3.chunk.js.map": "/invoice-management-system/static/js/787.8af56ae3.chunk.js.map",
     "649.9bfd8e17.chunk.js.map": "/invoice-management-system/static/js/649.9bfd8e17.chunk.js.map",
     "522.ee6b490f.chunk.js.map": "/invoice-management-system/static/js/522.ee6b490f.chunk.js.map",
     "431.0673732c.chunk.js.map": "/invoice-management-system/static/js/431.0673732c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.81a370c8.css",
-    "static/js/main.d75494ea.js"
+    "static/css/main.a6b5d590.css",
+    "static/js/main.6b63201f.js"
   ]
 }
