@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/invoice-management-system/static/css/main.a6b5d590.css",
-    "main.js": "/invoice-management-system/static/js/main.587e633f.js",
+    "main.js": "/invoice-management-system/static/js/main.7495a1cd.js",
     "static/js/327.14261788.chunk.js": "/invoice-management-system/static/js/327.14261788.chunk.js",
-    "static/js/489.07d9ef7e.chunk.js": "/invoice-management-system/static/js/489.07d9ef7e.chunk.js",
+    "static/js/489.602b667d.chunk.js": "/invoice-management-system/static/js/489.602b667d.chunk.js",
     "static/js/156.485506a5.chunk.js": "/invoice-management-system/static/js/156.485506a5.chunk.js",
     "static/js/908.659368d8.chunk.js": "/invoice-management-system/static/js/908.659368d8.chunk.js",
     "static/js/860.63ecc380.chunk.js": "/invoice-management-system/static/js/860.63ecc380.chunk.js",
@@ -17,9 +17,9 @@
     "static/media/scale.svg": "/invoice-management-system/static/media/scale.c792a58c4da10df7ce3570914f89e410.svg",
     "index.html": "/invoice-management-system/index.html",
     "main.a6b5d590.css.map": "/invoice-management-system/static/css/main.a6b5d590.css.map",
-    "main.587e633f.js.map": "/invoice-management-system/static/js/main.587e633f.js.map",
+    "main.7495a1cd.js.map": "/invoice-management-system/static/js/main.7495a1cd.js.map",
     "327.14261788.chunk.js.map": "/invoice-management-system/static/js/327.14261788.chunk.js.map",
-    "489.07d9ef7e.chunk.js.map": "/invoice-management-system/static/js/489.07d9ef7e.chunk.js.map",
+    "489.602b667d.chunk.js.map": "/invoice-management-system/static/js/489.602b667d.chunk.js.map",
     "156.485506a5.chunk.js.map": "/invoice-management-system/static/js/156.485506a5.chunk.js.map",
     "908.659368d8.chunk.js.map": "/invoice-management-system/static/js/908.659368d8.chunk.js.map",
     "860.63ecc380.chunk.js.map": "/invoice-management-system/static/js/860.63ecc380.chunk.js.map",
@@ -30,6 +30,6 @@
   },
   "entrypoints": [
     "static/css/main.a6b5d590.css",
-    "static/js/main.587e633f.js"
+    "static/js/main.7495a1cd.js"
   ]
 }
