@@ -64,9 +64,17 @@ const Nav = (props) => {
     >
       <List>
         {loggedIn ? (
-          <ListItem button onClick={() => signOut()}>
-            <ListItemText primary="Sign Out" />
-          </ListItem>
+          <>
+            <ListItem onClick={() => navigate_to_dashboard()}>
+              <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem onClick={() => navigate_to_profile()}>
+              <ListItemText primary="Profile" />
+            </ListItem>
+            <ListItem onClick={() => signOut()}>
+              <ListItemText primary="Sign Out" />
+            </ListItem>
+          </>
         ) : (
           <Link to="/login">
             <ListItem button>
@@ -92,7 +100,7 @@ const Nav = (props) => {
                     Invoicer
                   </Typography>
                 </Link>):(
-                <Link to="/">
+                <Link to="/invoice-management-system">
                   <Typography variant="h6" className={classes.logo}>
                     Invoicer
                   </Typography>

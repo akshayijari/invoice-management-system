@@ -7,7 +7,7 @@ import { setInvoice } from '../redux/invoice';
 import { addDoc, collection, serverTimestamp, updateDoc, doc, onSnapshot } from '@firebase/firestore';
 import db from '../firebase';
 import Nav from '../components/Nav';
-import { showToast, getRoundValue, createInvoiceID } from '../utils/functions';
+import { showToast, getRoundValue } from '../utils/functions';
 import Loading from '../components/Loading';
 
 const CreateInvoice = () => {
@@ -53,7 +53,6 @@ const CreateInvoice = () => {
   const user = useSelector((state) => state.user.user);
   const [loading, setLoading] = useState(true);
 
-  const [invoiceDetails, setInvoiceDetails] = useState(null);
 
   let params = useParams();
   useEffect(() => {
@@ -67,7 +66,6 @@ const CreateInvoice = () => {
       
       if (params.id) {
         const unsub = onSnapshot(doc(db, 'invoices', params.id), (doc) => {
-          setInvoiceDetails({ data: doc.data(), id: doc.id });
           setIsEdit(true)
           setItemList(doc.data().itemList)
           setInvoiceNo(doc.data().invoiceNo)
@@ -186,6 +184,7 @@ const CreateInvoice = () => {
 
   const updateInvoice = async (e) => {
     e.preventDefault();
+    setItemList([...itemList])
     dispatch(
       setInvoice({
         customerName,
@@ -328,7 +327,6 @@ const CreateInvoice = () => {
                   </label>
                   <input
                     type="text"
-                    required
                     name="customerPhone"
                     className="py-2 px-4 bg-gray-100 w-full mb-6"
                     value={customerPhone}
@@ -356,7 +354,6 @@ const CreateInvoice = () => {
                   </label>
                   <input
                     type="email"
-                    required
                     name="customerEmail"
                     className="py-2 px-4 bg-gray-100 w-full mb-6"
                     value={customerEmail}
@@ -483,6 +480,7 @@ const CreateInvoice = () => {
                     <input
                       type="text"
                       name="itemName"
+                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemName}
                       onChange={(e) => setItemName(e.target.value)}
@@ -490,7 +488,7 @@ const CreateInvoice = () => {
                   </div>
                   <div className="flex flex-col w-1/2">
                     <label htmlFor="itemCode" className="text-sm">
-                      Item Code
+                      Item/HSN Code
                     </label>
                     <input
                       type="text"
@@ -510,6 +508,7 @@ const CreateInvoice = () => {
                     <input
                       type="number"
                       name="itemQuantity"
+                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemQuantity}
                       onChange={(e) => setItemQuantity(e.target.value)}
@@ -522,6 +521,7 @@ const CreateInvoice = () => {
                     <input
                       type="text"
                       name="itemUnit"
+                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemUnit}
                       onChange={(e) => setItemUnit(e.target.value)}
@@ -535,6 +535,7 @@ const CreateInvoice = () => {
                     <input
                       type="number"
                       name="itemRate"
+                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemRate}
                       onChange={(e) => {setItemRate(e.target.value); setItemRatewithoutGST((e.target.value*100/(CGST+SGST+100)))}}
@@ -578,6 +579,7 @@ const CreateInvoice = () => {
                     <input
                       type="number"
                       name="itemRatewithoutGST"
+                      required
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemRatewithoutGST}
                       onChange={(e) => {setItemRatewithoutGST(e.target.value); setItemRate((e.target.value*(CGST+SGST+100)/100))}}

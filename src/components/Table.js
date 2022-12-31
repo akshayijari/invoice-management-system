@@ -1,13 +1,13 @@
 import React from 'react';
 import DashboardActionsSvg from './DashboardActionsSvg';
-import { convertTimestamp } from '../utils/functions';
 
 const Table = ({ invoices }) => {
   console.log('invoices', invoices);
   return (
-    <div className="w-full overflow-auto">
+    <div className="w-full">
       <h3 className="text-xl text-blue-700 font-semibold">Recent Invoices </h3>
-      <table>
+      <div className="w-full overflow-auto">
+      <table >
         <thead>
           <tr>
             <th  className="text-blue-600">Customer</th>
@@ -33,6 +33,7 @@ const Table = ({ invoices }) => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

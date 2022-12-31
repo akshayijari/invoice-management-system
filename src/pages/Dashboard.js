@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux';
 import { query, collection, where, onSnapshot } from '@firebase/firestore';
 import db from '../firebase';
 import Loading from '../components/Loading';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -43,15 +46,19 @@ const Dashboard = () => {
           <Nav />
 
           <div className="sm:p-6 flex items-center flex-col p-3 justify-center">
-            <h3 className="p-12 text-slate-800">
-              Welcome, <span className="text-blue-800">{user.email}</span>
-            </h3>
-            <button
-              className=" h-36 py-6 px-12 border-t-8 border-blue-800 shadow-md rounded hover:bg-slate-200 hover:border-red-500 bg-slate-50 cursor-pointer mb-[100px] mt-[50px] text-blue-700"
-              onClick={() => navigate('/new/invoice')}
-            >
-              <p>Create an invoice</p>
-            </button>
+            <Tooltip title="Create invoice">
+              <IconButton
+                onClick={() => navigate('/new/invoice')}
+                style={{
+                  position: 'fixed',
+                  bottom: '20px',
+                  right: '10px',
+                  zIndex: '1000px',
+                }}
+              >
+                <AddCircleIcon color="primary" sx={{ fontSize: 50 }} />
+              </IconButton>
+            </Tooltip>
 
             {invoices.length !== 0 && <Table invoices={invoices} />}
           </div>
