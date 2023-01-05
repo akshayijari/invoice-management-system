@@ -1,36 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import CreateInvoiceTable from '../components/CreateInvoiceTable';
-import { useDispatch, useSelector } from 'react-redux';
-import { setInvoice } from '../redux/invoice';
-import { addDoc, collection, serverTimestamp, updateDoc, doc, onSnapshot } from '@firebase/firestore';
-import db from '../firebase';
-import Nav from '../components/Nav';
-import { showToast, getRoundValue } from '../utils/functions';
-import Loading from '../components/Loading';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import CreateInvoiceTable from "../components/CreateInvoiceTable";
+import { useDispatch, useSelector } from "react-redux";
+import { setInvoice } from "../redux/invoice";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  updateDoc,
+  doc,
+  onSnapshot,
+} from "@firebase/firestore";
+import db from "../firebase";
+import Nav from "../components/Nav";
+import { showToast, getRoundValue } from "../utils/functions";
+import Loading from "../components/Loading";
 
 const CreateInvoice = () => {
-
   const [isEdit, setIsEdit] = useState(false);
-  const [invoiceNo, setInvoiceNo] = useState('');
-  const [customerName, setCustomerName] = useState('');
-  const [customerAddress, setCustomerAddress] = useState('');
-  const [customerCity, setCustomerCity] = useState('');
-  const [customerDist, setCustomerDist] = useState('');
-  const [customerState, setCustomerState] = useState('');
-  const [customerPincode, setCustomerPincode] = useState('');
-  const [customerGSTN, setCustomerGSTN] = useState('');
-  const [customerEmail, setCustomerEmail] = useState('');
-  const [customerPhone, setCustomerPhone] = useState('');
-  const [currency, setCurrency] = useState('INR');
-  const [customerEway, setCustomerEway] = useState('');
-  const [customerBillDate, setCustomerBillDate] = useState('');
-  const [customerDestination, setCustomerDestination] = useState('');
-  const [customerVehicleNo, setCustomerVehicleNo] = useState('');
-  const [customerDispatchedThrough, setCustomerDispatchedThrough] = useState('');
-  const [customerDeliveryTerms, setCustomerDeliveryTerms] = useState('');
-  
+  const [invoiceNo, setInvoiceNo] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [customerCity, setCustomerCity] = useState("");
+  const [customerDist, setCustomerDist] = useState("");
+  const [customerState, setCustomerState] = useState("");
+  const [customerPincode, setCustomerPincode] = useState("");
+  const [customerGSTN, setCustomerGSTN] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [currency, setCurrency] = useState("INR");
+  const [customerEway, setCustomerEway] = useState("");
+  const [customerBillDate, setCustomerBillDate] = useState("");
+  const [customerDestination, setCustomerDestination] = useState("");
+  const [customerVehicleNo, setCustomerVehicleNo] = useState("");
+  const [customerDispatchedThrough, setCustomerDispatchedThrough] =
+    useState("");
+  const [customerDeliveryTerms, setCustomerDeliveryTerms] = useState("");
+
   const [CGST, setCGST] = useState(2.5);
   const [SGST, setSGST] = useState(2.5);
   const [cgstAmount, setCgstAmount] = useState(0);
@@ -38,11 +45,11 @@ const CreateInvoice = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [priceRoundoff, setpriceRoundoff] = useState(0.0);
-  
-  const [itemName, setItemName] = useState('');
+
+  const [itemName, setItemName] = useState("");
   const [itemQuantity, setItemQuantity] = useState(1);
-  const [itemCode, setItemCode] = useState('');
-  const [itemUnit, setItemUnit] = useState('');
+  const [itemCode, setItemCode] = useState("");
+  const [itemUnit, setItemUnit] = useState("");
   const [itemCost, setItemCost] = useState(0);
   const [itemRate, setItemRate] = useState(0);
   const [itemRatewithoutGST, setItemRatewithoutGST] = useState(0);
@@ -53,38 +60,36 @@ const CreateInvoice = () => {
   const user = useSelector((state) => state.user.user);
   const [loading, setLoading] = useState(true);
 
-
   let params = useParams();
   useEffect(() => {
-    if (!user.id) return navigate('/login');
+    if (!user.id) return navigate("/login");
     setLoading(false);
   }, [navigate, user.id]);
 
   useEffect(() => {
-    if (!user.id) return navigate('/login');
+    if (!user.id) return navigate("/login");
     try {
-      
       if (params.id) {
-        const unsub = onSnapshot(doc(db, 'invoices', params.id), (doc) => {
-          setIsEdit(true)
-          setItemList(doc.data().itemList)
-          setInvoiceNo(doc.data().invoiceNo)
-          setCustomerName(doc.data().customerName)
-          setCustomerAddress(doc.data().customerAddress)
-          setCustomerCity(doc.data().customerCity)
-          setCustomerDist(doc.data().customerDist)
-          setCustomerState(doc.data().customerState)
-          setCustomerPincode(doc.data().customerPincode)
-          setCustomerGSTN(doc.data().customerGSTN)
-          setCustomerEmail(doc.data().customerEmail)
-          setCustomerPhone(doc.data().customerPhone)
-          setCurrency(doc.data().currency)
-          setCustomerEway(doc.data().customerEway)
-          setCustomerBillDate(doc.data().customerBillDate)
-          setCustomerDestination(doc.data().customerDestination)
-          setCustomerVehicleNo(doc.data().customerVehicleNo)
-          setCustomerDispatchedThrough(doc.data().customerDispatchedThrough)
-          setCustomerDeliveryTerms(doc.data().customerDeliveryTerms)
+        const unsub = onSnapshot(doc(db, "invoices", params.id), (doc) => {
+          setIsEdit(true);
+          setItemList(doc.data().itemList);
+          setInvoiceNo(doc.data().invoiceNo);
+          setCustomerName(doc.data().customerName);
+          setCustomerAddress(doc.data().customerAddress);
+          setCustomerCity(doc.data().customerCity);
+          setCustomerDist(doc.data().customerDist);
+          setCustomerState(doc.data().customerState);
+          setCustomerPincode(doc.data().customerPincode);
+          setCustomerGSTN(doc.data().customerGSTN);
+          setCustomerEmail(doc.data().customerEmail);
+          setCustomerPhone(doc.data().customerPhone);
+          setCurrency(doc.data().currency);
+          setCustomerEway(doc.data().customerEway);
+          setCustomerBillDate(doc.data().customerBillDate);
+          setCustomerDestination(doc.data().customerDestination);
+          setCustomerVehicleNo(doc.data().customerVehicleNo);
+          setCustomerDispatchedThrough(doc.data().customerDispatchedThrough);
+          setCustomerDeliveryTerms(doc.data().customerDeliveryTerms);
         });
         setLoading(false);
         return () => unsub();
@@ -92,38 +97,39 @@ const CreateInvoice = () => {
     } catch (error) {
       console.error(error);
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
-    setItemCost(getRoundValue(itemQuantity*itemRatewithoutGST))
+    setItemCost(getRoundValue(itemQuantity * itemRatewithoutGST));
   }, [itemRatewithoutGST, itemQuantity]);
 
   useEffect(() => {
-    let total_amount=0;
-    itemList.forEach(x => {
+    let total_amount = 0;
+    itemList.forEach((x) => {
       total_amount = total_amount + x.itemCost;
     });
 
-    console.log(total_amount, getRoundValue(4));
-    setTotalAmount(getRoundValue(total_amount))
-    setCgstAmount(getRoundValue(total_amount*CGST/100))
-    setSgstAmount(getRoundValue(total_amount*SGST/100))
-    let grandtotal = total_amount+getRoundValue(total_amount*CGST/100)+getRoundValue(total_amount*SGST/100);
-    setpriceRoundoff((grandtotal-Math.floor(grandtotal)).toFixed(2))
-    setGrandTotal((Math.floor(grandtotal)).toFixed(2))
+    setTotalAmount(getRoundValue(total_amount));
+    setCgstAmount(getRoundValue((total_amount * CGST) / 100));
+    setSgstAmount(getRoundValue((total_amount * SGST) / 100));
+    let grandtotal =
+      total_amount +
+      getRoundValue((total_amount * CGST) / 100) +
+      getRoundValue((total_amount * SGST) / 100);
+    setpriceRoundoff((grandtotal - Math.floor(grandtotal)).toFixed(2));
+    setGrandTotal(Math.floor(grandtotal).toFixed(2));
   }, [itemList]);
 
   const deleteItem = (name) => {
-    try{
-      if(itemList.length > 0){
+    try {
+      if (itemList.length > 0) {
         const filteredList = itemList.filter((item) => item.itemName !== name);
-        setItemList(filteredList)
+        setItemList(filteredList);
       }
+    } catch (e) {
+      console.log("error while deleting item", e);
     }
-    catch(e){
-      console.log('error while deleting item', e);
-    }
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -142,11 +148,11 @@ const CreateInvoice = () => {
       ]);
     }
 
-    setItemName('');
-    setItemCode('')
+    setItemName("");
+    setItemCode("");
     setItemCost(0);
     setItemQuantity(1);
-    setItemUnit('')
+    setItemUnit("");
     setItemRate(0);
     setItemRatewithoutGST(0);
   };
@@ -164,27 +170,48 @@ const CreateInvoice = () => {
       })
     );
 
-    await addDoc(collection(db, 'invoices'), {
+    await addDoc(collection(db, "invoices"), {
       user_id: user.id,
       created_timestamp: serverTimestamp(),
       updated_timestamp: serverTimestamp(),
       invoiceNo,
-      customerName,customerAddress,customerCity,customerDist,customerState,customerPincode,customerGSTN,customerEmail,customerPhone,currency,
-      customerEway,customerBillDate,customerDestination,customerVehicleNo,customerDispatchedThrough,customerDeliveryTerms,itemList,
-      CGST,SGST,cgstAmount,sgstAmount,totalAmount,grandTotal,priceRoundoff,
+      customerName,
+      customerAddress,
+      customerCity,
+      customerDist,
+      customerState,
+      customerPincode,
+      customerGSTN,
+      customerEmail,
+      customerPhone,
+      currency,
+      customerEway,
+      customerBillDate,
+      customerDestination,
+      customerVehicleNo,
+      customerDispatchedThrough,
+      customerDeliveryTerms,
+      itemList,
+      CGST,
+      SGST,
+      cgstAmount,
+      sgstAmount,
+      totalAmount,
+      grandTotal,
+      priceRoundoff,
     })
       .then(() => {
-        showToast('success', 'Invoice created!📜');
+        showToast("success", "Invoice created!📜");
       })
-      .then(() => navigate('/dashboard'))
+      .then(() => navigate("/dashboard"))
       .catch((err) => {
-        showToast('error', 'Try again! Invoice not created!😭');
+        showToast("error", "Try again! Invoice not created!😭");
       });
   };
 
   const updateInvoice = async (e) => {
     e.preventDefault();
-    setItemList([...itemList])
+    setItemList([...itemList]);
     dispatch(
       setInvoice({
         customerName,
@@ -195,19 +222,41 @@ const CreateInvoice = () => {
         currency,
       })
     );
-    await updateDoc(doc(db, 'invoices', params.id), {
+    await updateDoc(doc(db, "invoices", params.id), {
       user_id: user.id,
       updated_timestamp: serverTimestamp(),
       invoiceNo,
-      customerName,customerAddress,customerCity,customerDist,customerState,customerPincode,customerGSTN,customerEmail,customerPhone,currency,
-      customerEway,customerBillDate,customerDestination,customerVehicleNo,customerDispatchedThrough,customerDeliveryTerms,itemList,
-      CGST,SGST,cgstAmount,sgstAmount,totalAmount,grandTotal,priceRoundoff,
-    }).then(() => {
-      showToast('success', 'Invoice updated!📜');
+      customerName,
+      customerAddress,
+      customerCity,
+      customerDist,
+      customerState,
+      customerPincode,
+      customerGSTN,
+      customerEmail,
+      customerPhone,
+      currency,
+      customerEway,
+      customerBillDate,
+      customerDestination,
+      customerVehicleNo,
+      customerDispatchedThrough,
+      customerDeliveryTerms,
+      itemList,
+      CGST,
+      SGST,
+      cgstAmount,
+      sgstAmount,
+      totalAmount,
+      grandTotal,
+      priceRoundoff,
     })
-    .catch((err) => {
-      showToast('error', 'Try again! Invoice not updated!😭');
-    });
+      .then(() => {
+        showToast("success", "Invoice updated!📜");
+      })
+      .catch((err) => {
+        showToast("error", "Try again! Invoice not updated!😭");
+      });
   };
   return (
     <>
@@ -223,7 +272,7 @@ const CreateInvoice = () => {
 
             <form
               className="w-full mx-auto flex flex-col"
-              onSubmit={isEdit?updateInvoice: saveInvoice}
+              onSubmit={isEdit ? updateInvoice : saveInvoice}
             >
               <label htmlFor="invoiceNo" className="text-sm">
                 Invoice Number
@@ -397,7 +446,7 @@ const CreateInvoice = () => {
 
                   <div className="flex flex-col w-1/3">
                     <label htmlFor="customerBillDate" className="text-sm">
-                      Bill Date 
+                      Bill Date
                     </label>
                     <input
                       type="text"
@@ -440,7 +489,10 @@ const CreateInvoice = () => {
                 </div>
                 <div className="flex items-end space-x-3">
                   <div className="flex flex-col w-1/2">
-                    <label htmlFor="customerDispatchedThrough" className="text-sm">
+                    <label
+                      htmlFor="customerDispatchedThrough"
+                      className="text-sm"
+                    >
                       Dispatched Through
                     </label>
                     <input
@@ -449,7 +501,9 @@ const CreateInvoice = () => {
                       name="customerDispatchedThrough"
                       className="py-2 px-4 bg-gray-100 w-full mb-6"
                       value={customerDispatchedThrough}
-                      onChange={(e) => setCustomerDispatchedThrough(e.target.value)}
+                      onChange={(e) =>
+                        setCustomerDispatchedThrough(e.target.value)
+                      }
                     />
                   </div>
 
@@ -534,7 +588,12 @@ const CreateInvoice = () => {
                       name="itemRate"
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemRate}
-                      onChange={(e) => {setItemRate(e.target.value); setItemRatewithoutGST((e.target.value*100/(CGST+SGST+100)))}}
+                      onChange={(e) => {
+                        setItemRate(e.target.value);
+                        setItemRatewithoutGST(
+                          (e.target.value * 100) / (CGST + SGST + 100)
+                        );
+                      }}
                     />
                   </div>
                 </div>
@@ -564,7 +623,6 @@ const CreateInvoice = () => {
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={CGST}
                       onChange={(e) => setCGST(e.target.value)}
-                      
                     />
                   </div>
 
@@ -577,18 +635,22 @@ const CreateInvoice = () => {
                       name="itemRatewithoutGST"
                       className="py-2 px-4 mb-6 bg-gray-100 w-full"
                       value={itemRatewithoutGST}
-                      onChange={(e) => {setItemRatewithoutGST(e.target.value); setItemRate((e.target.value*(CGST+SGST+100)/100))}}
+                      onChange={(e) => {
+                        setItemRatewithoutGST(e.target.value);
+                        setItemRate(
+                          (e.target.value * (CGST + SGST + 100)) / 100
+                        );
+                      }}
                     />
                   </div>
-
                 </div>
                 <div className="flex flex-col justify-center w-1/4">
                   <p className="text-sm">Price</p>
                   <p className="py-2 px-4 mb-6 bg-gray-100">
-                    {Number(itemCost).toLocaleString('en-US')}
+                    {Number(itemCost).toLocaleString("en-US")}
                   </p>
                 </div>
-                
+
                 <button
                   className="bg-blue-500 text-gray-100 w-[150px] p-3 rounded my-2"
                   onClick={handleSubmit}
@@ -597,23 +659,23 @@ const CreateInvoice = () => {
                 </button>
               </div>
 
-              {itemList[0] && 
-                <CreateInvoiceTable 
-                  itemList={itemList} 
-                  cgstAmount={cgstAmount} 
+              {itemList[0] && (
+                <CreateInvoiceTable
+                  itemList={itemList}
+                  cgstAmount={cgstAmount}
                   sgstAmount={sgstAmount}
                   totalAmount={totalAmount}
                   grandTotal={grandTotal}
-                  priceRoundoff={priceRoundoff} 
+                  priceRoundoff={priceRoundoff}
                   deleteItem={deleteItem}
                 />
-              }
+              )}
 
               <button
                 className="bg-blue-800 text-gray-100 w-full p-5 rounded my-6"
                 type="submit"
               >
-                {!isEdit?"SAVE INVOICE":"UPDATE INVOICE"}
+                {!isEdit ? "SAVE INVOICE" : "UPDATE INVOICE"}
               </button>
             </form>
           </div>
