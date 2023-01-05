@@ -176,76 +176,85 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
                   </div>
                 )}
               </div>
+              <div className="overflow-auto">
+                <table>
+                  <thead>
+                    <tr>
+                      <th className="w-1/12">SL. No.</th>
+                      <th className="text-center text-sm w-5/12">
+                        Description of Goods
+                      </th>
+                      <th className="text-center text-sm  w-1/12">
+                        HSN/SAC Code
+                      </th>
+                      <th className="text-center text-sm  w-1/12">Quantity</th>
+                      <th className="text-center text-sm  w-1/12">Unit</th>
+                      <th className="text-center text-sm  w-1/12">Rate</th>
+                      <th className="text-center text-sm  w-2/12">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {invoiceDetails &&
+                      invoiceDetails.data.itemList.map((item, idx) => (
+                        <tr key={item.itemName}>
+                          <td className="text-xs capitalize">{idx + 1}</td>
+                          <td className="text-xs capitalize">
+                            {item.itemName}
+                          </td>
+                          <td className="text-xs capitalize text-center">
+                            {item.itemCode}
+                          </td>
+                          <td className="text-xs text-center">
+                            {Number(item.itemQuantity).toFixed(2)}
+                          </td>
+                          <td className="text-xs capitalize text-center">
+                            {item.itemUnit}
+                          </td>
+                          <td className="text-xs text-right">
+                            {Number(item.itemRatewithoutGST).toFixed(2)}
+                          </td>
+                          <td className="text-xs text-right">
+                            {Number(item.itemCost).toFixed(2)}
+                          </td>
+                        </tr>
+                      ))}
 
-              <table>
-                <thead>
-                  <tr>
-                    <th>SL. No.</th>
-                    <th className="text-right text-sm">Description of Goods</th>
-                    <th className="text-right text-sm">HSN/SAC Code</th>
-                    <th className="text-right text-sm">Qty</th>
-                    <th className="text-right text-sm">Unit</th>
-                    <th className="text-right text-sm">Rate</th>
-                    <th className="text-right text-sm">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {invoiceDetails &&
-                    invoiceDetails.data.itemList.map((item, idx) => (
-                      <tr key={item.itemName}>
-                        <td className="text-xs capitalize">{idx + 1}</td>
-                        <td className="text-xs capitalize">{item.itemName}</td>
-                        <td className="text-xs capitalize text-center">
-                          {item.itemCode}
-                        </td>
-                        <td className="text-xs text-right">
-                          {Number(item.itemQuantity).toLocaleString("en-US")}
-                        </td>
-                        <td className="text-xs capitalize">{item.itemUnit}</td>
-                        <td className="text-xs text-right">
-                          {Number(item.itemRatewithoutGST).toLocaleString(
-                            "en-US"
-                          )}
-                        </td>
-                        <td className="text-xs text-right">
-                          {(
-                            Number(item.itemQuantity) * Number(item.itemCost)
-                          ).toLocaleString("en-US")}
-                        </td>
-                      </tr>
-                    ))}
-
-                  {invoiceDetails && (
-                    <>
-                      <TableRow
-                        name="Total Amount"
-                        value={invoiceDetails.data.totalAmount}
-                        classname="text-right"
-                      />
-                      <TableRow
-                        name={`CGST (${invoiceDetails.data.CGST})%`}
-                        value={invoiceDetails.data.cgstAmount}
-                        classname="text-right"
-                      />
-                      <TableRow
-                        name={`SGST (${invoiceDetails.data.SGST})%`}
-                        value={invoiceDetails.data.sgstAmount}
-                        classname="text-right"
-                      />
-                      <TableRow
-                        name="Round off"
-                        value={invoiceDetails.data.priceRoundoff}
-                        classname="text-right"
-                      />
-                      <TableRow
-                        name="Grand Total"
-                        value={`${invoiceDetails.data.currency} ${invoiceDetails.data.grandTotal}`}
-                        classname="text-right"
-                      />
-                    </>
-                  )}
-                </tbody>
-              </table>
+                    {invoiceDetails && (
+                      <>
+                        <TableRow
+                          name="Total Amount"
+                          value={invoiceDetails.data.totalAmount}
+                          classname="text-right"
+                        />
+                        <TableRow
+                          name={`CGST (${invoiceDetails.data.CGST})%`}
+                          value={invoiceDetails.data.cgstAmount}
+                          classname="text-right"
+                        />
+                        <TableRow
+                          name={`SGST (${invoiceDetails.data.SGST})%`}
+                          value={invoiceDetails.data.sgstAmount}
+                          classname="text-right"
+                        />
+                        <TableRow
+                          name="Round off"
+                          value={invoiceDetails.data.priceRoundoff}
+                          classname="text-right"
+                        />
+                        <TableRow
+                          name="Grand Total"
+                          value={
+                            invoiceDetails.data.currency === "INR"
+                              ? `\u20B9 ${invoiceDetails.data.grandTotal}`
+                              : `${invoiceDetails.data.currency} ${invoiceDetails.data.grandTotal}`
+                          }
+                          classname="text-right"
+                        />
+                      </>
+                    )}
+                  </tbody>
+                </table>
+              </div>
 
               {invoiceDetails && invoiceDetails.data && (
                 <p className="px-8 py-2 border-t-2 border-black">
