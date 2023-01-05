@@ -1,14 +1,18 @@
 import React from "react";
 import { convertTimestamp } from "../utils/functions";
 import DashboardActionsSvg from "./DashboardActionsSvg";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
-const Table = ({ invoices }) => {
+const Table = ({ invoices, refresh }) => {
   console.log("invoices", invoices);
   return (
     <div className="w-full">
-      <h3 className="text-xl text-blue-700 font-semibold pb-6">
-        Recent Invoices{" "}
-      </h3>
+      <div className="flex items-center pb-6 place-content-between">
+        <h3 className="text-xl text-blue-700 font-semibold">
+          Recent Invoices ({invoices.length})
+        </h3>
+        <RefreshIcon onClick={refresh} className="ml-4" color="primary" />
+      </div>
       <div className="w-full overflow-auto">
         <table>
           <thead>
